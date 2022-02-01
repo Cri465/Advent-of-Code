@@ -1,20 +1,22 @@
 require 'byebug'
-class DayThree
-  attr_accessor :data
 
+class DayThree
+  attr_accessor :solved_gas, :solved_radio
   def initialize(data)
     parse_input(data)
     gamma_rate
     epsilon_rate
+    solve_radio
     oxygen_rate
     c02_rate
+    solve_gas
   end
 
   def parse_input(input)
     @data = input.split("\n").map! { |x| x.split('') }
   end
 
-  #  returns binary number of least common digits in each index
+  # least common
   def epsilon_rate(data = @data)
     data = data.transpose
     epsilon = ''
@@ -29,16 +31,16 @@ class DayThree
     @epsilon = epsilon
   end
 
-  #  returns binary number of most common digits in each index
+  # most common
   def gamma_rate(data = @data)
     data = data.transpose
     gamma = ''
     data.each do |i|
       i = i.join
-      gamma += if i.count('1') >= i.count('0')
-                 '1'
-               else
+      gamma += if i.count('1') < i.count('0')
                  '0'
+               else
+                 '1'
                end
     end
     @gamma = gamma
@@ -66,15 +68,15 @@ class DayThree
   end
 
   def solve_radio
-    @gamma.to_i(2) * @epsilon.to_i(2)
+    @solved_radio = @gamma.to_i(2) * @epsilon.to_i(2)
   end
 
   def solve_gas
-    @c02.to_i(2) * @oxygen.to_i(2)
+    @solved_gas = @c02.to_i(2) * @oxygen.to_i(2)
   end
 end
 
 file_data = File.read('day_three.txt')
 submarine = DayThree.new(file_data)
-p submarine.solve_radio
-p submarine.solve_gas
+p submarine.solved_radio
+p submarine.solved_gas
