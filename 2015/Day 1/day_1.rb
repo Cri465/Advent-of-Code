@@ -1,6 +1,7 @@
 require '../helpers/helpers'
 
 class Day1
+
   include Helpers
   def initialize
     @puzzle_input = Helpers.read_puzzle_input
@@ -16,7 +17,7 @@ class Day1
 
   def resultpart2(input)
     temp = 0
-    input.split('').each_with_index do |el, i|
+    input.chars.each_with_index do |el, i|
       case el
       when '('
         temp += 1
@@ -26,7 +27,8 @@ class Day1
       return i + 1 if temp.negative?
     end
   end
-  # What is the position of the character that causes Santa to first enter the basement?
+
+  # What is the position (not index) of the character that causes Santa to first enter the basement?
 end
 
 Day1.new
