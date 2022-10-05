@@ -27,7 +27,6 @@ class Day1
       return i + 1 if temp.negative?
     end
   end
-
   # What is the position (not index) of the character that causes Santa to first enter the basement?
 end
 
