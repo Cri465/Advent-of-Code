@@ -1,37 +1,55 @@
-require_relative 'house'
+require '../helpers/helpers'
 
 class Day3
+  include Helpers
   def initialize
-    x = "^>v<".chars
-    # journey(x)
-    test
-  end
-
-  def opposite_direction(char)
-    { "^" => "v", "v" => "^", "<" => ">", ">" => "<" }[char]
+    @puzzle_input = Helpers.read_puzzle_input
+    p resultpart1(@puzzle_input)
+    p resultpart2(@puzzle_input)
   end
 
   def journey(magical)
-    acc = 0
-    first_house = House.new
-    current_house = first_house
-    magical.each do |i|
-      if current_house[i].nil?
-        temp = House.new()
-        temp[opposite_direction(i)] = current_house
-        current_house = temp
-        acc += 1
-      else
-        current_house = current_house[i]
+    current_coord = {x:0, y:0}
+    visited_coords = []
+    magical.chars.each do |i|
+      visited_coords << current_coord.clone
+      case i
+      when "^"
+        current_coord[:y] += 1
+        visited_coords << current_coord
+      when "v"
+        current_coord[:y] -= 1
+        visited_coords << current_coord
+      when "<"
+        current_coord[:x] -= 1
+        visited_coords << current_coord
+      when ">"
+        current_coord[:x] += 1
+        visited_coords << current_coord
       end
     end
-    acc
+    visited_coords.uniq.length
   end
 
-  def test
-    temp = House.new
-    temp["^"] = "bones"
-    p temp["^"]
+  def resultpart1(magical)
+    journey(magical)
+  end
+
+  def resultpart2(magical)
+    # not my solution fully broke my brain
+    santas = [[0,0], [0,0]].cycle
+    houses = {[0,0] => 1}
+    magical.chars.each do |i|
+      position = santas.next
+      case i
+      when '>'; position[0] += 1
+      when '<'; position[0] -= 1
+      when '^'; position[1] -= 1
+      when 'v'; position[1] += 1
+      end
+      houses[[position[0], position[1]]] = 1
+    end
+    houses.length
   end
 end
 
