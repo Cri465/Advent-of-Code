@@ -1,7 +1,6 @@
 require '../helpers/helpers'
 
 class Day3
-  include Helpers
   def initialize
     @puzzle_input = Helpers.read_puzzle_input
     p resultpart1(@puzzle_input)
