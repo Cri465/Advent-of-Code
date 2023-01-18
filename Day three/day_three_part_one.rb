@@ -2,6 +2,7 @@ require 'byebug'
 
 class DayThree
   attr_accessor :solved_gas, :solved_radio
+
   def initialize(data)
     parse_input(data)
     gamma_rate
@@ -13,7 +14,7 @@ class DayThree
   end
 
   def parse_input(input)
-    @data = input.split("\n").map! { |x| x.split('') }
+    @data = input.split("\n").map!(&:chars)
   end
 
   # least common
@@ -48,9 +49,9 @@ class DayThree
 
   def oxygen_rate
     oxygen_rate = @data.clone
-    ga = @gamma.split('')
+    ga = @gamma.chars
     @gamma.length.times do |i|
-      oxygen_rate.select! { |element| element[i] == ga[i] }
+      oxygen_rate.select!{|element| element[i] == ga[i] }
       ga = gamma_rate(oxygen_rate)
     end
     @oxygen = oxygen_rate.join
@@ -58,9 +59,9 @@ class DayThree
 
   def c02_rate
     c02_rate = @data.clone
-    ep = @epsilon.split('')
+    ep = @epsilon.chars
     @epsilon.length.times do |i|
-      c02_rate.select! { |element| element[i] == ep[i] }
+      c02_rate.select!{|element| element[i] == ep[i] }
       ep = epsilon_rate(c02_rate)
       break if c02_rate.length == 1
     end
@@ -68,6 +69,7 @@ class DayThree
   end
 
   def solve_radio
+    byebug
     @solved_radio = @gamma.to_i(2) * @epsilon.to_i(2)
   end
 
